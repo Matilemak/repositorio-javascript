@@ -1,7 +1,7 @@
 
 
 :root{
-    --color-principal: #4b33a8;
+    --color-principal:  #4f8ee8;
     --color-blanco: #ececec;
     --color-gris: #e2e2e2;
     --color-rojo: #961818;
@@ -28,7 +28,7 @@ a{
 .wrapper{
     display: grid;
     grid-template-columns: 1fr 4fr;
-    background-color: #4b33a8;
+    background-color:  #faa470;
 }
 
 .aside{
