@@ -5,7 +5,7 @@ const productos = [
         titulo: "Cafeteria",
         imagen: "./assets/img/bkry-orth-1.png",
         categoria:{
-            nombre: "Estructuras",
+            nombre: "estructuras",
             id: "estructuras"
         },
         precio: 5000
@@ -15,7 +15,7 @@ const productos = [
         titulo: "PLaneta Goose",
         imagen: "./assets/img/goose-avatar-1.png",
         categoria:{
-            nombre: "Mapas",
+            nombre: "mapas",
             id: "mapas"
         },
         precio: 10000
@@ -25,7 +25,7 @@ const productos = [
         titulo: "Gato 02",
         imagen: "./assets/img/gato-02.png",
         categoria:{
-            nombre: "Personajes",
+            nombre: "personajes",
             id: "personajes"
         },
         precio: 1000
@@ -35,7 +35,7 @@ const productos = [
         titulo: "Gato 08",
         imagen: "./assets/img/gato-08.png",
         categoria:{
-            nombre: "Peronajes",
+            nombre: "personajes",
             id: "personajes"
         },
         precio: 1000
@@ -68,9 +68,9 @@ function cargarProductos(productosElegidos) {
 }
 
 cargarProductos(productos);
+actualizarBotonesAgregar();
 
 botonesCategorias.forEach(boton => {boton.addEventListener("click", (e) => {
-
         botonesCategorias.forEach(boton => boton.classList.remove("active"));
         e.currentTarget.classList.add("active");
 
@@ -87,13 +87,6 @@ botonesCategorias.forEach(boton => {boton.addEventListener("click", (e) => {
     });
 })
 
-function actualizarBotonesAgregar(){
-    botonesAgregar = document.querySelectorAll(".producto-agregar");
-    botonesAgregar.forEach(boton => {
-        boton.addEventListener("click", agregarAlCarrito);
-    });
-}
-
 const productosEnCarrito = [];
 
 function agregarAlCarrito(e) {
@@ -101,8 +94,8 @@ function agregarAlCarrito(e) {
     const productoAgregado = productos.find( producto => producto.id === idBoton);
 
     if(productosEnCarrito.some(producto => producto.id === idBoton)){
-        const index = productosEnCarrito-findIndex(producto => producto.id === idBoton);
-        productosEnCarrito(index).cantidad++;
+        const index = productosEnCarrito.findIndex(producto => producto.id === idBoton);
+        productosEnCarrito[index].cantidad++;
     }else{
         productoAgregado.cantidad = 1;
         productosEnCarrito.push(productoAgregado);
@@ -112,10 +105,20 @@ function agregarAlCarrito(e) {
     localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
 }
 
+function actualizarBotonesAgregar(){
+    botonesAgregar = document.querySelectorAll(".producto-agregar");
+    botonesAgregar.forEach(boton => {
+        boton.addEventListener("click", agregarAlCarrito);
+    });
+}
+
 function actualizarNumero() {
     let nuevoNumero = productosEnCarrito.reduce((acc, producto) => acc + producto.cantidad, 0);
     numero.innerText = nuevoNumero;
-}
+}   
+    document.addEventListener("DOMContentLoaded", () => {
+        actualizarNumero();
+    });
 
 
 
