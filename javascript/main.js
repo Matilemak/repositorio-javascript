@@ -87,8 +87,6 @@ botonesCategorias.forEach(boton => {boton.addEventListener("click", (e) => {
     });
 })
 
-const productosEnCarrito = [];
-
 function agregarAlCarrito(e) {
     const idBoton = e.currentTarget.id;
     const productoAgregado = productos.find( producto => producto.id === idBoton);
@@ -112,6 +110,16 @@ function actualizarBotonesAgregar(){
     });
 }
 
+let productosEnCarrito;
+
+const productosEnCarritoLS = JSON.parse(localStorage.getItem("productos-en-carrito"));
+
+if(productosEnCarritoLS){
+    productosEnCarrito = productosEnCarritoLS;
+} else {
+    productosEnCarrito = [];
+}
+
 function actualizarNumero() {
     let nuevoNumero = productosEnCarrito.reduce((acc, producto) => acc + producto.cantidad, 0);
     numero.innerText = nuevoNumero;
@@ -124,6 +132,10 @@ function actualizarNumero() {
 
 
 
+
+
+
+    
 /*
     <img class="producto-imagen" src="./assets/img/bkry-orth-1.png" alt="Una cafetería">
         <div class="producto-detalles">
