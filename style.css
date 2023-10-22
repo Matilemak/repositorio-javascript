@@ -106,7 +106,8 @@ a{
 }
 
 .producto-imagen{
-    max-width: 100%;
+    width: 100%;
+    border-radius: 1rem;
 }
 
 .producto-detalles{
@@ -214,8 +215,8 @@ a{
     border-radius: 1rem;
 }
 
-.carrito-productos-imagen{
-    width: 6rem;
+.carrito-producto-imagen{
+    width: 4rem;
     border-radius: 1rem;
 }
 
