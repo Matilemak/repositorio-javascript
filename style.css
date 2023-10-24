@@ -147,10 +147,12 @@ a{
     gap:1.5rem;
 }
 
-.carrito-vacio, 
+.carrito-vacio {
+    color:var(--color-principal);
+}
+
 .carrito-comprado {
     color:var(--color-principal);
-    display: none;
 }
 
 .carrito-acciones{
@@ -232,7 +234,6 @@ a{
 
 .disabled{
     display: none;
-
 }
 
 

@@ -1,12 +1,14 @@
 
+let productosEnCarrito = [];
+
 const productos = [
     {
         id: "cafeteria",
         titulo: "Cafeteria",
         imagen: "./assets/img/bkry-orth-1.png",
         categoria:{
-            nombre: "estructuras",
-            id: "estructuras"
+            nombre: "Estructuras",
+            id: "estructuras",
         },
         precio: 5000
     },
@@ -15,8 +17,8 @@ const productos = [
         titulo: "PLaneta Goose",
         imagen: "./assets/img/goose-avatar-1.png",
         categoria:{
-            nombre: "mapas",
-            id: "mapas"
+            nombre: "Mapas",
+            id: "mapas",
         },
         precio: 10000
     },
@@ -25,8 +27,8 @@ const productos = [
         titulo: "Gato 02",
         imagen: "./assets/img/gato-02.png",
         categoria:{
-            nombre: "personajes",
-            id: "personajes"
+            nombre: "Personajes",
+            id: "personajes",
         },
         precio: 1000
     },
@@ -35,8 +37,8 @@ const productos = [
         titulo: "Gato 08",
         imagen: "./assets/img/gato-08.png",
         categoria:{
-            nombre: "personajes",
-            id: "personajes"
+            nombre: "Personajes",
+            id: "personajes",
         },
         precio: 1000
     },
@@ -50,7 +52,6 @@ let botonesAgregar = document.querySelectorAll(".producto-agregar");
 const numero = document.querySelector("#numero");
 
 function cargarProductos(productosElegidos) {
-
     contenedorProductos.innerHTML = "";
     productosElegidos.forEach(producto => {
         const div = document.createElement("div");
@@ -65,8 +66,8 @@ function cargarProductos(productosElegidos) {
         `;
         contenedorProductos.append(div);
     });
+    actualizarBotonesAgregar();
 }
-
 cargarProductos(productos);
 actualizarBotonesAgregar();
 
@@ -110,10 +111,7 @@ function actualizarBotonesAgregar(){
     });
 }
 
-let productosEnCarrito;
-
 let productosEnCarritoLS = localStorage.getItem("productos-en-carrito");
-
 
 if(productosEnCarritoLS){
     productosEnCarrito = JSON.parse(productosEnCarritoLS);
