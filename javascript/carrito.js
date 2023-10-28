@@ -1,6 +1,5 @@
 
-let productosEnCarrito = localStorage.getItem("productos-en-carrito");
-productosEnCarrito = JSON.parse(productosEnCarrito);
+let productosEnCarrito = localStorage.getItem("productos-en-carrito"); productosEnCarrito = JSON.parse(productosEnCarrito);
 const contenedorCarritoVacio = document.querySelector("#carrito-vacio");
 const contenedorCarritoProductos = document.querySelector("#carrito-productos");
 const contenedorCarritoAcciones = document.querySelector("#carrito-acciones");
@@ -78,29 +77,59 @@ function vaciarCarrito() {
     productosEnCarrito.length = 0;
     localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
     cargarProductosCarrito();
-
 }
 
 function actualizarTotal() {
     const totalCalculado = productosEnCarrito.reduce((acc, producto) => acc + (producto.precio * producto.cantidad), 0);
-    total.innerText = `$${totalCalculado}`;
-
-
+    contenedorTotal.innerText = `$${totalCalculado}`;
 }
 
 botonComprar.addEventListener("click", comprarCarrito);
 
+let carrito = [];
+
+function calculoCuotas() {
+    let precioTotal = 0;
+    let detalleProductos = "Detalle de productos:\n";
+
+    productosEnCarrito ((producto) => {
+        const productoPrecio = producto.precio;
+        const productoSubtotal = producto.precio * producto.cantidad;
+        detalleProductos += `${producto.titulo} - Cantidad: ${producto.cantidad} - Precio: $${productoPrecio}\n`
+        precioTotal += productoSubtotal;
+    });
+    alert(`Precio total a pagar: $${precioTotal}\n${detalleProductos}`);
+
+    let cuotas;
+
+    while (true) {
+        cuotas = parseInt(prompt("¿En cuantas cuotas deseas pagar? (Desde 0 a 12 cuotas)"));
+        if (!isNaN(cuotas) && cuotas >= 0 && cuotas <= 12) {
+            break;
+        }
+        alert("Error: Ingresa un número entre 0 y 12");
+    }
+
+    let pagoMensual = precioTotal / (cuotas || 1);
+    alert("Pago mensual del: $" + pagoMensual.toFixed(0));
+}
+
 function comprarCarrito() {
     productosEnCarrito.length = 0;
     localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
-    console.log(comprarCarrito);
-    
+
     contenedorCarritoVacio.classList.add("disabled");
     contenedorCarritoProductos.classList.add("disabled");
     contenedorCarritoAcciones.classList.add("disabled");
     contenedorCarritoComprado.classList.remove("disabled");
-    console.log(contenedorCarritoComprado);
+
+    calculoCuotas();
+    let continuar = confirm("El pago se ha realizado con éxito :)");
+    if (!continuar) {
+        return;
+    }
 }
+
 
 
 
