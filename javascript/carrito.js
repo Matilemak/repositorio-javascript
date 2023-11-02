@@ -61,7 +61,7 @@ function actualizarBotonesEliminar(){
     botonesEliminar = document.querySelectorAll(".carrito-producto-eliminar");
     botonesEliminar.forEach(boton => {
         boton.addEventListener("click", eliminarDelCarrito);
-    });
+    })
 }
 
 function eliminarDelCarrito(e){
@@ -87,47 +87,28 @@ function actualizarTotal() {
 botonComprar.addEventListener("click", comprarCarrito);
 
 let carrito = [];
-
-function calculoCuotas() {
-    let precioTotal = 0;
-    let detalleProductos = "Detalle de productos:\n";
-
-    productosEnCarrito ((producto) => {
-        const productoPrecio = producto.precio;
-        const productoSubtotal = producto.precio * producto.cantidad;
-        detalleProductos += `${producto.titulo} - Cantidad: ${producto.cantidad} - Precio: $${productoPrecio}\n`
-        precioTotal += productoSubtotal;
-    });
-    alert(`Precio total a pagar: $${precioTotal}\n${detalleProductos}`);
-
-    let cuotas;
-
-    while (true) {
-        cuotas = parseInt(prompt("¿En cuantas cuotas deseas pagar? (Desde 0 a 12 cuotas)"));
-        if (!isNaN(cuotas) && cuotas >= 0 && cuotas <= 12) {
-            break;
-        }
-        alert("Error: Ingresa un número entre 0 y 12");
-    }
-
-    let pagoMensual = precioTotal / (cuotas || 1);
-    alert("Pago mensual del: $" + pagoMensual.toFixed(0));
-}
-
 function comprarCarrito() {
     productosEnCarrito.length = 0;
     localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
+
+    Swal.fire({
+        title: "¿Desea realizar la compra?",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar compra",
+        confirmButtonText: "Pagar ahora",
+        icon: "question"
+    }).then(eleccion);{
+        if (eleccionPagar){
+            Swal.fire("El pago se ha realizado con éxtio :)", "", "success");
+        }else if(eleccionCancelar === Swal.DissmissReason.Cancel);{
+            Swal.fire("La compra se ha cancelado :(", "", "error");
+        }
+    }
 
     contenedorCarritoVacio.classList.add("disabled");
     contenedorCarritoProductos.classList.add("disabled");
     contenedorCarritoAcciones.classList.add("disabled");
     contenedorCarritoComprado.classList.remove("disabled");
-
-    calculoCuotas();
-    let continuar = confirm("El pago se ha realizado con éxito :)");
-    if (!continuar) {
-        return;
-    }
 }
 
 

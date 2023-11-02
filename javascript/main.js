@@ -1,5 +1,7 @@
 
+
 let productosEnCarrito = [];
+
 
 const productos = [
     {
@@ -85,7 +87,7 @@ botonesCategorias.forEach(boton => {boton.addEventListener("click", (e) => {
             tituloPrincipal.innerText = "Todos los productos";
             cargarProductos(productos);
         }
-    });
+    })
 })
 
 function agregarAlCarrito(e) {
