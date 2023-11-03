@@ -1,0 +1,42 @@
+[
+    {
+        "id": "cafeteria",
+        "titulo": "Cafeteria",
+        "imagen": "./assets/img/bkry-orth-1.png",
+        "categoria":{
+            "nombre": "Estructuras",
+            "id": "estructuras"
+        },
+        "precio": 5000
+    },
+    {
+        "id": "planeta-goose",
+        "titulo": "Planeta Goose",
+        "imagen": "./assets/img/goose-avatar-1.png",
+        "categoria":{
+            "nombre": "Mapas",
+            "id": "mapas"
+        },
+        "precio": 10000
+    },
+    {
+        "id": "gato-02",
+        "titulo": "Gato 02",
+        "imagen": "./assets/img/gato-02.png",
+        "categoria":{
+            "nombre": "Personajes",
+            "id": "personajes"
+        },
+        "precio": 1000
+    },
+    {
+        "id": "gato-08",
+        "titulo": "Gato 08",
+        "imagen": "./assets/img/gato-08.png",
+        "categoria":{
+            "nombre": "Personajes",
+            "id": "personajes"
+        },
+        "precio": 1000
+    }
+]

@@ -1,50 +1,5 @@
 
-
 let productosEnCarrito = [];
-
-
-const productos = [
-    {
-        id: "cafeteria",
-        titulo: "Cafeteria",
-        imagen: "./assets/img/bkry-orth-1.png",
-        categoria:{
-            nombre: "Estructuras",
-            id: "estructuras",
-        },
-        precio: 5000
-    },
-    {
-        id: "planeta-goose",
-        titulo: "PLaneta Goose",
-        imagen: "./assets/img/goose-avatar-1.png",
-        categoria:{
-            nombre: "Mapas",
-            id: "mapas",
-        },
-        precio: 10000
-    },
-    {
-        id: "gato-02",
-        titulo: "Gato 02",
-        imagen: "./assets/img/gato-02.png",
-        categoria:{
-            nombre: "Personajes",
-            id: "personajes",
-        },
-        precio: 1000
-    },
-    {
-        id: "gato-08",
-        titulo: "Gato 08",
-        imagen: "./assets/img/gato-08.png",
-        categoria:{
-            nombre: "Personajes",
-            id: "personajes",
-        },
-        precio: 1000
-    },
-];
 
 // DOM
 const contenedorProductos = document.querySelector("#contenedor-productos");
@@ -53,42 +8,52 @@ const tituloPrincipal = document.querySelector("#titulo-principal");
 let botonesAgregar = document.querySelectorAll(".producto-agregar");
 const numero = document.querySelector("#numero");
 
-function cargarProductos(productosElegidos) {
-    contenedorProductos.innerHTML = "";
-    productosElegidos.forEach(producto => {
-        const div = document.createElement("div");
-        div.classList.add("producto");
-        div.innerHTML = `
-            <img class="producto-imagen" src="${producto.imagen}" alt="${producto.imagen}">
-            <div class="producto-detalles">
-                <h3 class="producto-titulo">${producto.titulo}</h3>
-                <p class="producto-precio">${producto.precio}</p>
-                <button class="producto-agregar" id="${producto.id}">Agregar</button>
-            </div>
-        `;
-        contenedorProductos.append(div);
+function cargarProductosJSON() {
+        fetch('productos.json')
+            .then((resp) => resp.json())
+            .then(function(productosElegidos){
+                productos = productosElegidos;
+                filtrarProductos(productosElegidos);
+            })
+}
+
+function filtrarProductos(productosElegidos){
+        contenedorProductos.innerHTML = "";
+        productosElegidos.forEach(producto => {
+            const div = document.createElement("div");
+            div.classList.add("producto");
+            div.innerHTML = `
+                <img class="producto-imagen" src="${producto.imagen}" alt="${producto.imagen}">
+                <div class="producto-detalles">
+                    <h3 class="producto-titulo">${producto.titulo}</h3>
+                    <p class="producto-preci0">${producto.precio}</p>
+                    <button class="producto-agregar" id="${producto.id}">Agregar</button>
+                </div>
+            `;
+            contenedorProductos.append(div);
     });
     actualizarBotonesAgregar();
 }
-cargarProductos(productos);
+cargarProductosJSON();
 actualizarBotonesAgregar();
 
 botonesCategorias.forEach(boton => {boton.addEventListener("click", (e) => {
         botonesCategorias.forEach(boton => boton.classList.remove("active"));
         e.currentTarget.classList.add("active");
 
-        if (e.currentTarget.id != "todos") {
-            const productoCategoria = productos.find(producto => producto.categoria.id === e.currentTarget.id);
-            tituloPrincipal.innerText = productoCategoria.categoria.nombre;
+        const categoriaSeleccionada = e.currentTarget.id;
 
-            const productosBoton = productos.filter(producto => producto.categoria.id === e.currentTarget.id);
-            cargarProductos(productosBoton);
+        if (categoriaSeleccionada != "todos") {
+            const productosFiltrados = productos.filter(producto => producto.categoria.id === categoriaSeleccionada);
+            const categoria = productosFiltrados[0].categoria.nombre;
+            tituloPrincipal.innerText = categoria;
+            filtrarProductos(productosFiltrados);
         }else{
             tituloPrincipal.innerText = "Todos los productos";
-            cargarProductos(productos);
+            filtrarProductos(productos);
         }
-    })
-})
+    });
+});
 
 function agregarAlCarrito(e) {
     const idBoton = e.currentTarget.id;
@@ -128,5 +93,3 @@ function actualizarNumero() {
     document.addEventListener("DOMContentLoaded", () => {
         actualizarNumero();
     });
-
-    

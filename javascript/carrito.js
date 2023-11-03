@@ -60,14 +60,22 @@ cargarProductosCarrito();
 function actualizarBotonesEliminar(){
     botonesEliminar = document.querySelectorAll(".carrito-producto-eliminar");
     botonesEliminar.forEach(boton => {
-        boton.addEventListener("click", eliminarDelCarrito);
+        boton.addEventListener("click", eliminarProductoDelCarrito);
     })
 }
 
-function eliminarDelCarrito(e){
+
+function eliminarProductoDelCarrito(e){
     const idBoton = e.currentTarget.id;
     const index = productosEnCarrito.findIndex(producto => producto.id === idBoton);
-    productosEnCarrito.splice(index, 1);
+
+    if (index !== -1){
+        if(productosEnCarrito[index].cantidad > 1){
+            productosEnCarrito[index].cantidad -= 1;
+        }else{
+            productosEnCarrito.splice(index, 1);
+        }
+    }
     cargarProductosCarrito();
     localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
 }
@@ -84,31 +92,48 @@ function actualizarTotal() {
     contenedorTotal.innerText = `$${totalCalculado}`;
 }
 
+let carrito = [];
+
 botonComprar.addEventListener("click", comprarCarrito);
 
-let carrito = [];
 function comprarCarrito() {
-    productosEnCarrito.length = 0;
-    localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
-
     Swal.fire({
-        title: "¿Desea realizar la compra?",
+        title: "<h4 class='titulo-alerta-compra'>¿Desea realizar esta compra?</h4>",
         showCancelButton: true,
-        cancelButtonText: "Cancelar compra",
+        cancelButtonText: "Cancelar",
+        cancelButtonColor: "#4f8ee8",
         confirmButtonText: "Pagar ahora",
-        icon: "question"
-    }).then(eleccion);{
-        if (eleccionPagar){
-            Swal.fire("El pago se ha realizado con éxtio :)", "", "success");
-        }else if(eleccionCancelar === Swal.DissmissReason.Cancel);{
-            Swal.fire("La compra se ha cancelado :(", "", "error");
-        }
-    }
+        confirmButtonColor: "#faa470",
+        icon: "question",
+        backdrop: true,
 
-    contenedorCarritoVacio.classList.add("disabled");
-    contenedorCarritoProductos.classList.add("disabled");
-    contenedorCarritoAcciones.classList.add("disabled");
-    contenedorCarritoComprado.classList.remove("disabled");
+    }).then((result) => {
+        if (result.isConfirmed){
+            productosEnCarrito.length = 0;
+            localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
+
+            Swal.fire({
+                html: "<p class='texto-alerta-compra'>El pago se ha realizado con éxito :)</p>",
+                confirmButtonText: "Genial",
+                confirmButtonColor: "#faa470",
+                icon: "success",
+                backdrop: true,
+            });
+
+            contenedorCarritoVacio.classList.add("disabled");
+            contenedorCarritoProductos.classList.add("disabled");
+            contenedorCarritoAcciones.classList.add("disabled");
+            contenedorCarritoComprado.classList.remove("disabled");
+        }else if(result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+                html: "<p class='texto-alerta-compra'>La compra se ha cancelado :(</p>",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#faa470",
+                icon: "error",
+                backdrop: true,
+            });
+        }
+    });
 }
 
 

@@ -1,9 +1,9 @@
 Swal.fire({
-    title: '<h3 class="titulo-alerta">Promocion</h3>',
-    html: '<b class="color-alerta">Por cada compra sobre $10.000 <p class="color-alerta2"> lleva un llavero gratis</p></b>',
+    title: '<h3 class="titulo-alerta">Bienvenido</h3>',
+    html: '<b class="color-alerta">En esta tienda puedes encontrar arte digital</b>',
     confirmButtonText: 'Gracias',
     confirmButtonColor: '#faa470',
-    width: '50%',
+    width: '25%',
     padding: '1rem',
     background: '#4f8ee8',
     backdrop: true,
